@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DIGIND — Contact</title>
+  <meta name="description" content="Contacter DIGIND : formulaire + email." />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+<header>
+  <div class="container">
+    <nav class="nav">
+      <a class="brand" href="index.html"><img src="assets/digind-logo.svg" alt="Logo DIGIND" /></a>
+      <button class="menuBtn" type="button" aria-label="Ouvrir le menu">Menu</button>
+      <div class="navlinks" role="navigation" aria-label="Navigation principale">
+        <a href="index.html">Accueil</a>
+        <a href="offre.html">Offre</a>
+        <a href="methode.html">Méthode</a>
+        <a href="cas.html">Cas d’usage</a>
+        <a href="contact.html" class="btn" style="padding:10px 12px;">Contact</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container">
+      <h2>Contact</h2>
+      <p>Décris ton besoin, je reviens vers toi rapidement.</p>
+
+      <div class="grid2">
+        <div class="card form">
+          <!-- OPTION FORMULAIRE EMAIL (Formspree) -->
+          <!-- 1) Crée un formulaire sur formspree.io
+               2) Remplace "yourid" par ton ID (ex: https://formspree.io/f/abcdwxyz)
+          -->
+          <form action="https://formspree.io/f/yourid" method="POST">
+            <div class="field">
+              <label for="name">Nom</label>
+              <input id="name" name="name" type="text" placeholder="Ton nom" required />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="ton@email.com" required />
+            </div>
+            <div class="field">
+              <label for="company">Entreprise (optionnel)</label>
+              <input id="company" name="company" type="text" placeholder="PME / secteur" />
+            </div>
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Contexte, objectif, délais, contraintes…" required></textarea>
+            </div>
+
+            <button class="btn" type="submit">Envoyer</button>
+            <a class="btn secondary" style="margin-left:8px" href="mailto:contact@digind.fr?subject=Demande%20de%20contact%20DIGIND">Envoyer par email</a>
+
+            <p class="small" style="margin-top:10px;">
+              (Tu peux remplacer contact@digind.fr par ton email réel.)
+            </p>
+          </form>
+        </div>
+
+        <div class="card feature">
+          <h3>Ce que j’ai besoin de savoir</h3>
+          <p>Pour répondre utilement :</p>
+          <ul class="small" style="margin:0; padding-left:18px; color:var(--muted)">
+            <li>Ton activité / atelier / service concerné</li>
+            <li>Le problème principal (visibilité, délais, qualité, pilotage…)</li>
+            <li>Les outils actuels (Excel, ERP, etc.)</li>
+            <li>Le délai souhaité</li>
+          </ul>
+
+          <div class="note" style="margin-top:14px;">
+            Astuce : avec Formspree, le formulaire envoie un email sans serveur.
+            Remplace juste l’URL “/f/yourid”.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p class="small">© <span id="y"></span> DIGIND — Structurer • Mesurer • Décider</p>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>

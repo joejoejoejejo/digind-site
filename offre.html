@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DIGIND — Offre</title>
+  <meta name="description" content="Offres DIGIND : diagnostic & cadrage, pilotage Power BI, automatisation Power Apps, formation et autonomie." />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+<header>
+  <div class="container">
+    <nav class="nav">
+      <a class="brand" href="index.html"><img src="assets/digind-logo.svg" alt="Logo DIGIND" /></a>
+      <button class="menuBtn" type="button" aria-label="Ouvrir le menu">Menu</button>
+      <div class="navlinks" role="navigation" aria-label="Navigation principale">
+        <a href="index.html">Accueil</a>
+        <a href="offre.html">Offre</a>
+        <a href="methode.html">Méthode</a>
+        <a href="cas.html">Cas d’usage</a>
+        <a href="contact.html" class="btn" style="padding:10px 12px;">Contact</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="container">
+      <h2>Offre</h2>
+      <p>3 blocs modulables, pour avancer vite et garder le contrôle.</p>
+
+      <div class="grid3">
+        <div class="card feature">
+          <h3>1) Diagnostic & cadrage</h3>
+          <p>
+            Cartographie des processus, irritants, données disponibles, priorisation.
+            Restitution courte + plan d’actions.
+          </p>
+          <p class="small"><b>Livrables :</b> synthèse, schéma process, backlog priorisé, KPI cibles.</p>
+        </div>
+
+        <div class="card feature">
+          <h3>2) Pilotage & reporting (Power BI)</h3>
+          <p>
+            Modèle de données simple, indicateurs utiles, tableaux de bord orientés décisions.
+            Mise en place progressive (MVP puis itérations).
+          </p>
+          <p class="small"><b>Livrables :</b> dashboard, dictionnaire KPI, règles de mise à jour.</p>
+        </div>
+
+        <div class="card feature">
+          <h3>3) Automatisation & app (Power Apps)</h3>
+          <p>
+            Saisie terrain, suivi actions, gestion non-conformités, demandes internes…
+            Apps légères connectées à vos outils existants.
+          </p>
+          <p class="small"><b>Livrables :</b> app, flux, guide utilisateur, gouvernance.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="card feature">
+          <h3>Formation & autonomie (inclus ou en option)</h3>
+          <p>
+            L’objectif est que vos équipes puissent maintenir et faire évoluer les outils.
+            Sessions courtes + exercices sur vos cas réels.
+          </p>
+          <div class="heroCtas">
+            <a class="btn" href="contact.html">Demander un échange</a>
+            <a class="btn secondary" href="methode.html">Voir la méthode</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p class="small">© <span id="y"></span> DIGIND — Structurer • Mesurer • Décider</p>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
