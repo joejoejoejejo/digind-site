@@ -8,6 +8,9 @@
   <meta name="description" content="DIGIND accompagne les PME industrielles dans la structuration des processus et le pilotage de la performance via des outils digitaux simples (Power BI / Power Apps)." />
   <meta name="theme-color" content="#0F2A3D"/>
 
+  <!-- ✅ Favicon depuis /assets -->
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
   <style>
     :root{
       --ink:#0F2A3D;
@@ -71,7 +74,8 @@
       padding:12px 0;
     }
     .brand{display:flex; align-items:center; gap:12px; font-weight:800;}
-    .brand svg{height:38px; width:auto; display:block}
+    /* ✅ logo maintenant en <img> */
+    .brand img{height:38px; width:auto; display:block}
 
     .navlinks{display:flex; gap:14px; align-items:center}
     .navlinks a{
@@ -303,23 +307,9 @@
 <header>
   <div class="container">
     <nav class="nav">
+      <!-- ✅ Logo depuis /assets -->
       <a class="brand" href="#/" aria-label="Accueil DIGIND">
-        <svg xmlns="http://www.w3.org/2000/svg" width="420" height="90" viewBox="0 0 420 90" role="img" aria-label="DIGIND">
-          <defs>
-            <style>
-              .word{font:700 44px/1.1 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; letter-spacing:1px}
-              .sub{font:600 14px/1.1 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; letter-spacing:.6px}
-            </style>
-          </defs>
-          <g transform="translate(14,16)">
-            <rect x="0" y="0" width="58" height="58" rx="14" fill="#0F2A3D"/>
-            <path d="M16 38V20h4v18h18v4H16z" fill="#E5E7EB" opacity=".95"/>
-            <circle cx="40" cy="20" r="5.5" fill="#F97316"/>
-          </g>
-          <text x="90" y="50" class="word" fill="#0F2A3D">DIGIND</text>
-          <text x="90" y="74" class="sub" fill="#0F2A3D" opacity=".78">STRUCTURER • MESURER • DÉCIDER</text>
-          <rect x="90" y="56" width="120" height="4" rx="2" fill="#F97316"/>
-        </svg>
+        <img src="assets/digind-logo.svg" alt="DIGIND — Structurer • Mesurer • Décider">
       </a>
 
       <button class="menuBtn" type="button" aria-label="Ouvrir le menu">Menu</button>
@@ -614,6 +604,10 @@
         <div class="grid2">
           <div class="card form">
             <form id="contactForm" action="https://formspree.io/f/xaqnaoae" method="POST">
+              <!-- ✅ Options Formspree -->
+              <input type="hidden" name="_subject" value="Nouveau contact DIGIND (site)">
+              <input type="hidden" name="_template" value="table">
+
               <!-- honeypot anti-spam -->
               <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
 
@@ -688,11 +682,8 @@
     <div class="footerGrid">
       <div>
         <div style="display:flex; align-items:center; gap:10px;">
-          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 64 64" aria-hidden="true">
-            <rect x="6" y="6" width="52" height="52" rx="14" fill="#0F2A3D"/>
-            <path d="M20 44V22h4v18h20v4H20z" fill="#E5E7EB"/>
-            <circle cx="44" cy="22" r="6" fill="#F97316"/>
-          </svg>
+          <!-- ✅ Icône/logo depuis /assets -->
+          <img src="assets/digind-logo.svg" alt="" style="height:44px; width:auto; display:block;">
           <div>
             <div style="font-weight:900;">DIGIND</div>
             <div class="small">Conseil en performance opérationnelle & digitalisation pour PME industrielles.</div>
@@ -723,21 +714,7 @@
   const links = document.querySelector('.navlinks');
   if (btn && links) btn.addEventListener('click', () => links.classList.toggle('show'));
 
-  // --- Favicon inline (data URI) ---
-  (function injectFavicon(){
-    const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-  <rect x="6" y="6" width="52" height="52" rx="14" fill="#0F2A3D"/>
-  <path d="M20 44V22h4v18h20v4H20z" fill="#E5E7EB"/>
-  <circle cx="44" cy="22" r="6" fill="#F97316"/>
-</svg>`.trim();
-    const href = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-    const link = document.createElement('link');
-    link.rel = 'icon';
-    link.type = 'image/svg+xml';
-    link.href = href;
-    document.head.appendChild(link);
-  })();
+  // ✅ Suppression du favicon injecté en JS : maintenant géré par <link rel="icon" ...>
 
   // --- Routes ---
   const routes = {
@@ -825,8 +802,13 @@
       e.preventDefault();
 
       if (status) { status.style.display = "none"; status.textContent = ""; }
+
+      // ✅ Désactive tout le formulaire (anti double click / envoi)
+      const controls = form.querySelectorAll('input, textarea, select, button');
+      controls.forEach(el => { el.disabled = true; });
+
       const oldText = btnSend?.textContent || "Envoyer";
-      if (btnSend) { btnSend.disabled = true; btnSend.textContent = "Envoi…"; }
+      if (btnSend) btnSend.textContent = "Envoi…";
 
       try {
         const data = new FormData(form);
@@ -854,7 +836,9 @@
           status.textContent = "❌ Impossible d’envoyer (connexion ?). Utilisez le bouton email.";
         }
       } finally {
-        if (btnSend) { btnSend.disabled = false; btnSend.textContent = oldText; }
+        // ✅ Réactive tout
+        controls.forEach(el => { el.disabled = false; });
+        if (btnSend) btnSend.textContent = oldText;
       }
     });
   }
