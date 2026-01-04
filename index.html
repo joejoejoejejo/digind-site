@@ -3,118 +3,683 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
   <title>DIGIND — Structurer. Mesurer. Décider.</title>
   <meta name="description" content="DIGIND accompagne les PME industrielles dans la structuration des processus et le pilotage de la performance via des outils digitaux simples (Power BI / Power Apps)." />
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="assets/style.css" />
+  <meta name="theme-color" content="#0F2A3D"/>
+
+  <style>
+    :root{
+      --ink:#0F2A3D;
+      --muted:#5B6B76;
+      --bg:#F7F8FA;
+      --card:#FFFFFF;
+      --line:#E6E9EE;
+      --accent:#F97316;
+      --radius:18px;
+      --shadow: 0 10px 30px rgba(15,42,61,.08);
+      --shadowHover: 0 16px 44px rgba(15,42,61,.14);
+      --max:1100px;
+
+      /* micro-animations */
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --dur: 260ms;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      line-height:1.55;
+      overflow-x:hidden;
+    }
+
+    a{color:inherit;text-decoration:none}
+    a:hover{opacity:.92}
+
+    .container{max-width:var(--max); margin:0 auto; padding:0 18px;}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 16px; border-radius:14px;
+      background:var(--accent); color:white; font-weight:800;
+      border:1px solid transparent;
+      cursor:pointer;
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), opacity var(--dur) var(--ease);
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 24px rgba(249,115,22,.22); }
+    .btn.secondary{
+      background:transparent; color:var(--ink); border-color:var(--line);
+    }
+    .badge{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:6px 10px; border:1px solid var(--line);
+      border-radius:999px; background:#fff;
+      font-size:13px; color:var(--muted);
+    }
+
+    /* header */
+    header{
+      position:sticky; top:0; z-index:50;
+      background:rgba(247,248,250,.84);
+      backdrop-filter: blur(12px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 0;
+    }
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800;}
+    .brand svg{height:38px; width:auto; display:block}
+
+    .navlinks{display:flex; gap:14px; align-items:center}
+    .navlinks a{
+      padding:10px 12px; border-radius:12px;
+      color:var(--muted); font-weight:800; font-size:14px;
+      border:1px solid transparent;
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur) var(--ease);
+    }
+    .navlinks a:hover{ transform: translateY(-1px); }
+    .navlinks a.active, .navlinks a:hover{
+      color:var(--ink); background:#fff; border-color:var(--line);
+    }
+    .menuBtn{
+      display:none;
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:12px;
+      padding:10px 12px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    /* pages + fade */
+    .page{display:none; opacity:0; transform: translateY(6px); transition: opacity 220ms var(--ease), transform 220ms var(--ease);}
+    .page.active{display:block;}
+    .page.in{opacity:1; transform:none;}
+
+    /* HERO modern bg */
+    .hero{
+      padding:52px 0 26px;
+      position:relative;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-160px -220px auto -220px;
+      height:560px;
+      background:
+        radial-gradient(closest-side at 20% 30%, rgba(249,115,22,.22), transparent 60%),
+        radial-gradient(closest-side at 70% 20%, rgba(15,42,61,.14), transparent 62%),
+        radial-gradient(closest-side at 55% 70%, rgba(249,115,22,.12), transparent 58%);
+      filter: blur(2px);
+      pointer-events:none;
+      z-index:0;
+    }
+    .hero .container{position:relative; z-index:1;}
+
+    .heroGrid{
+      display:grid; gap:18px;
+      grid-template-columns: 1.2fr .8fr;
+      align-items:stretch;
+    }
+
+    /* cards */
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: var(--shadowHover);
+      border-color: rgba(15,42,61,.14);
+    }
+
+    .heroMain{padding:26px}
+    h1{margin:10px 0 12px; font-size:40px; line-height:1.08; letter-spacing:-.6px}
+    .lead{color:var(--muted); font-size:16px; margin:0 0 18px}
+    .heroCtas{display:flex; gap:10px; flex-wrap:wrap}
+
+    .kpis{
+      padding:22px;
+      display:grid; gap:12px;
+      grid-template-columns:1fr;
+    }
+    .kpi{
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fff;
+      transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    .kpi:hover{ transform: translateY(-1px); border-color: rgba(249,115,22,.28); }
+    .kpi b{display:block; font-size:14px}
+    .kpi span{display:block; color:var(--muted); font-size:13px; margin-top:4px}
+
+    /* animated accent line */
+    .accentLine{
+      height:6px;
+      background: linear-gradient(90deg, var(--accent), rgba(249,115,22,.15), var(--accent));
+      background-size: 220% 100%;
+      border-radius:99px;
+      margin-top:16px;
+      animation: shimmer 5.5s var(--ease) infinite;
+    }
+    @keyframes shimmer{
+      0%{background-position:0% 0%}
+      50%{background-position:100% 0%}
+      100%{background-position:0% 0%}
+    }
+
+    /* sections */
+    .section{padding:26px 0}
+    .section h2{font-size:26px; margin:0 0 8px; letter-spacing:-.2px}
+    .section p{margin:0 0 16px; color:var(--muted)}
+    .grid3{display:grid; gap:14px; grid-template-columns: repeat(3, 1fr);}
+    .grid2{display:grid; gap:14px; grid-template-columns: repeat(2, 1fr);}
+
+    .feature{padding:18px}
+    .feature h3{margin:0 0 6px; font-size:16px}
+    .feature p{margin:0; color:var(--muted); font-size:14px}
+
+    .step{padding:18px; display:flex; gap:12px;}
+    .step .dot{
+      width:34px; height:34px; border-radius:12px;
+      background:rgba(249,115,22,.14);
+      border:1px solid rgba(249,115,22,.35);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900; color:var(--accent);
+      flex:0 0 auto;
+    }
+    .step h3{margin:0 0 4px; font-size:15px}
+    .step p{margin:0; color:var(--muted); font-size:14px}
+
+    .footer{
+      padding:26px 0 46px;
+      border-top:1px solid var(--line);
+      margin-top:26px;
+    }
+    .footerGrid{
+      display:grid; gap:14px; grid-template-columns:1.2fr .8fr;
+      align-items:start;
+    }
+    .small{color:var(--muted); font-size:13px}
+    .footer a{color:var(--muted); font-weight:800}
+    .footer a:hover{color:var(--ink)}
+    hr.sep{border:none;border-top:1px solid var(--line); margin:14px 0}
+
+    .form{padding:18px}
+    .field{display:grid; gap:6px; margin-bottom:12px}
+    label{font-weight:900; font-size:13px}
+    input, textarea, select{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      font:inherit;
+      transition: box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    input:focus, textarea:focus, select:focus{
+      outline:none;
+      border-color: rgba(249,115,22,.45);
+      box-shadow: 0 0 0 4px rgba(249,115,22,.12);
+    }
+    textarea{min-height:140px; resize:vertical}
+
+    .note{
+      padding:14px;
+      border-radius:16px;
+      border:1px dashed rgba(249,115,22,.55);
+      background: rgba(249,115,22,.08);
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:#fff;
+      color:var(--muted);
+      font-size:13px;
+      font-weight:800;
+      transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    }
+    .pill:hover{ transform: translateY(-1px); border-color: rgba(15,42,61,.18); }
+
+    /* scroll reveal */
+    .reveal{
+      opacity:0;
+      transform: translateY(10px);
+      transition: opacity 520ms var(--ease), transform 520ms var(--ease);
+    }
+    .reveal.in{
+      opacity:1;
+      transform:none;
+    }
+
+    /* mobile */
+    @media (max-width: 900px){
+      .heroGrid{grid-template-columns:1fr}
+      .grid3{grid-template-columns:1fr}
+      .grid2{grid-template-columns:1fr}
+      h1{font-size:34px}
+      .menuBtn{display:inline-flex}
+      .navlinks{
+        display:none;
+        position:absolute;
+        right:18px;
+        top:64px;
+        flex-direction:column;
+        padding:10px;
+        background:#fff;
+        border:1px solid var(--line);
+        border-radius:16px;
+        box-shadow: var(--shadow);
+        min-width:220px;
+      }
+      .navlinks.show{display:flex}
+      .navlinks a.btn{justify-content:flex-start}
+    }
+
+    /* accessibility: reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none !important; transition:none !important; scroll-behavior:auto !important;}
+      .page{opacity:1; transform:none;}
+      .reveal{opacity:1; transform:none;}
+    }
+  </style>
 </head>
+
 <body>
 <header>
   <div class="container">
     <nav class="nav">
-      <a class="brand" href="index.html" aria-label="Accueil DIGIND">
-        <img src="assets/digind-logo.svg" alt="Logo DIGIND" />
+      <a class="brand" href="#/" aria-label="Accueil DIGIND">
+        <svg xmlns="http://www.w3.org/2000/svg" width="420" height="90" viewBox="0 0 420 90" role="img" aria-label="DIGIND">
+          <defs>
+            <style>
+              .word{font:700 44px/1.1 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; letter-spacing:1px}
+              .sub{font:600 14px/1.1 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; letter-spacing:.6px}
+            </style>
+          </defs>
+          <g transform="translate(14,16)">
+            <rect x="0" y="0" width="58" height="58" rx="14" fill="#0F2A3D"/>
+            <path d="M16 38V20h4v18h18v4H16z" fill="#E5E7EB" opacity=".95"/>
+            <circle cx="40" cy="20" r="5.5" fill="#F97316"/>
+          </g>
+          <text x="90" y="50" class="word" fill="#0F2A3D">DIGIND</text>
+          <text x="90" y="74" class="sub" fill="#0F2A3D" opacity=".78">STRUCTURER • MESURER • DÉCIDER</text>
+          <rect x="90" y="56" width="120" height="4" rx="2" fill="#F97316"/>
+        </svg>
       </a>
 
       <button class="menuBtn" type="button" aria-label="Ouvrir le menu">Menu</button>
 
       <div class="navlinks" role="navigation" aria-label="Navigation principale">
-        <a href="index.html">Accueil</a>
-        <a href="offre.html">Offre</a>
-        <a href="methode.html">Méthode</a>
-        <a href="cas.html">Cas d’usage</a>
-        <a href="contact.html" class="btn" style="padding:10px 12px;">Contact</a>
+        <a data-route="#/" href="#/">Accueil</a>
+        <a data-route="#/offre" href="#/offre">Offre</a>
+        <a data-route="#/methode" href="#/methode">Méthode</a>
+        <a data-route="#/cas" href="#/cas">Cas d’usage</a>
+        <a data-route="#/contact" href="#/contact" class="btn" style="padding:10px 12px;">Contact</a>
       </div>
     </nav>
   </div>
 </header>
 
 <main>
-  <section class="hero">
-    <div class="container">
-      <div class="heroGrid">
-        <div class="card heroMain">
-          <div class="badge">PME industrielles • Performance • Digital</div>
-          <h1>Des processus clairs.<br/>Des indicateurs utiles.<br/>Des décisions maîtrisées.</h1>
-          <p class="lead">
-            DIGIND accompagne les PME industrielles dans la structuration des processus et le pilotage de la performance
-            grâce à des outils digitaux simples et efficaces (Microsoft Power BI / Power Apps).
-          </p>
+  <!-- PAGE: ACCUEIL -->
+  <section id="page-home" class="page">
+    <section class="hero">
+      <div class="container">
+        <div class="heroGrid">
+          <div class="card heroMain">
+            <div class="badge">PME industrielles • Performance • Digital</div>
+            <h1>Des processus clairs.<br/>Des indicateurs utiles.<br/>Des décisions maîtrisées.</h1>
+            <p class="lead">
+              DIGIND accompagne les PME industrielles dans la structuration des processus et le pilotage de la performance
+              grâce à des outils digitaux simples et efficaces (Microsoft Power BI / Power Apps).
+            </p>
 
-          <div class="heroCtas">
-            <a class="btn" href="contact.html">Demander un échange</a>
-            <a class="btn secondary" href="offre.html">Voir l’offre</a>
+            <div class="heroCtas">
+              <a class="btn" href="#/contact">Demander un échange</a>
+              <a class="btn secondary" href="#/offre">Voir l’offre</a>
+            </div>
+
+            <div class="accentLine"></div>
+            <p class="small" style="margin:12px 0 0;">
+              Approche pragmatique : comprendre votre réalité terrain → construire un pilotage utile → transférer les compétences.
+            </p>
           </div>
 
-          <div class="accentLine"></div>
-          <p class="small" style="margin:12px 0 0;">
-            Approche pragmatique : comprendre votre réalité terrain → construire un pilotage utile → transférer les compétences.
-          </p>
-        </div>
-
-        <div class="card kpis">
-          <div class="kpi">
-            <b>Diagnostic rapide</b>
-            <span>Cartographie processus + irritants + priorités (1 à 2 semaines typiquement)</span>
-          </div>
-          <div class="kpi">
-            <b>MVP en 2–4 semaines</b>
-            <span>Un premier tableau de bord / app simple, utilisé par les équipes</span>
-          </div>
-          <div class="kpi">
-            <b>Autonomie visée</b>
-            <span>Formation + documentation + passage de relais (durable)</span>
-          </div>
-          <div class="kpi">
-            <b>Outils</b>
-            <span>Power BI • Power Apps • Excel/SharePoint • Process</span>
+          <div class="card kpis">
+            <div class="kpi">
+              <b>Diagnostic rapide</b>
+              <span>Cartographie processus + irritants + priorités (1 à 2 semaines typiquement)</span>
+            </div>
+            <div class="kpi">
+              <b>MVP en 2–4 semaines</b>
+              <span>Un premier tableau de bord / app simple, utilisé par les équipes</span>
+            </div>
+            <div class="kpi">
+              <b>Autonomie visée</b>
+              <span>Formation + documentation + passage de relais (durable)</span>
+            </div>
+            <div class="kpi">
+              <b>Outils</b>
+              <span>Power BI • Power Apps • Excel/SharePoint • Process</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Ce que DIGIND apporte</h2>
+        <p>Une combinaison terrain (process) + data (pilotage), orientée résultats concrets.</p>
+
+        <div class="grid3">
+          <div class="card feature">
+            <h3>Structurer</h3>
+            <p>Clarifier les flux, responsabilités, rituels et données nécessaires à la performance.</p>
+          </div>
+          <div class="card feature">
+            <h3>Mesurer</h3>
+            <p>Construire des indicateurs utiles (pas “trop”), compréhensibles et actionnables.</p>
+          </div>
+          <div class="card feature">
+            <h3>Décider</h3>
+            <p>Mettre en place un pilotage simple : routines, revues, alertes, plans d’action.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="grid2">
+          <div class="card feature">
+            <h3>Pour qui ?</h3>
+            <p>
+              Dirigeants, responsables production/méthodes/qualité/finance dans des PME industrielles
+              qui veulent gagner en visibilité, fiabiliser les décisions et réduire les irritants.
+            </p>
+          </div>
+          <div class="card feature">
+            <h3>Comment on travaille ?</h3>
+            <p>
+              Cadrage court → itérations rapides → livrables concrets → transfert compétences.
+              Sur site ou à distance, selon vos contraintes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   </section>
 
-  <section class="section">
-    <div class="container">
-      <h2>Ce que DIGIND apporte</h2>
-      <p>Une combinaison terrain (process) + data (pilotage), orientée résultats concrets.</p>
+  <!-- PAGE: OFFRE -->
+  <section id="page-offre" class="page">
+    <section class="section">
+      <div class="container">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+          <div>
+            <h2>Offre</h2>
+            <p>3 blocs modulables, pour avancer vite et garder le contrôle.</p>
+          </div>
+          <a class="pill" href="#/contact">→ Demander un échange</a>
+        </div>
 
-      <div class="grid3">
-        <div class="card feature">
-          <h3>Structurer</h3>
-          <p>Clarifier les flux, responsabilités, rituels et données nécessaires à la performance.</p>
+        <div class="grid3">
+          <div class="card feature">
+            <h3>1) Diagnostic & cadrage</h3>
+            <p>
+              Cartographie des processus, irritants, données disponibles, priorisation.
+              Restitution courte + plan d’actions.
+            </p>
+            <p class="small"><b>Livrables :</b> synthèse, schéma process, backlog priorisé, KPI cibles.</p>
+          </div>
+
+          <div class="card feature">
+            <h3>2) Pilotage & reporting (Power BI)</h3>
+            <p>
+              Modèle de données simple, indicateurs utiles, tableaux de bord orientés décisions.
+              Mise en place progressive (MVP puis itérations).
+            </p>
+            <p class="small"><b>Livrables :</b> dashboard, dictionnaire KPI, règles de mise à jour.</p>
+          </div>
+
+          <div class="card feature">
+            <h3>3) Automatisation & app (Power Apps)</h3>
+            <p>
+              Saisie terrain, suivi actions, gestion non-conformités, demandes internes…
+              Apps légères connectées à vos outils existants.
+            </p>
+            <p class="small"><b>Livrables :</b> app, flux, guide utilisateur, gouvernance.</p>
+          </div>
         </div>
-        <div class="card feature">
-          <h3>Mesurer</h3>
-          <p>Construire des indicateurs utiles (pas “trop”), compréhensibles et actionnables.</p>
-        </div>
-        <div class="card feature">
-          <h3>Décider</h3>
-          <p>Mettre en place un pilotage simple : routines, revues, alertes, plans d’action.</p>
+
+        <div class="section">
+          <div class="card feature">
+            <h3>Formation & autonomie (inclus ou en option)</h3>
+            <p>
+              L’objectif est que vos équipes puissent maintenir et faire évoluer les outils.
+              Sessions courtes + exercices sur vos cas réels.
+            </p>
+            <div class="heroCtas">
+              <a class="btn" href="#/contact">Demander un échange</a>
+              <a class="btn secondary" href="#/methode">Voir la méthode</a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   </section>
 
-  <section class="section">
-    <div class="container">
-      <div class="grid2">
-        <div class="card feature">
-          <h3>Pour qui ?</h3>
-          <p>
-            Dirigeants, responsables production/méthodes/qualité/finance dans des PME industrielles
-            qui veulent gagner en visibilité, fiabiliser les décisions et réduire les irritants.
-          </p>
+  <!-- PAGE: METHODE -->
+  <section id="page-methode" class="page">
+    <section class="section">
+      <div class="container">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+          <div>
+            <h2>Méthode</h2>
+            <p>Une approche courte, itérative, orientée adoption et résultats.</p>
+          </div>
+          <a class="pill" href="#/cas">→ Voir des cas</a>
         </div>
-        <div class="card feature">
-          <h3>Comment on travaille ?</h3>
-          <p>
-            Cadrage court → itérations rapides → livrables concrets → transfert compétences.
-            Sur site ou à distance, selon vos contraintes.
-          </p>
+
+        <div class="grid2">
+          <div class="card step">
+            <div class="dot">1</div>
+            <div>
+              <h3>Comprendre</h3>
+              <p>Visites, interviews, analyse données/rituels, cadrage objectifs et contraintes.</p>
+            </div>
+          </div>
+          <div class="card step">
+            <div class="dot">2</div>
+            <div>
+              <h3>Structurer</h3>
+              <p>Process, responsabilités, règles de gestion, définition KPI et sources.</p>
+            </div>
+          </div>
+          <div class="card step">
+            <div class="dot">3</div>
+            <div>
+              <h3>Mesurer</h3>
+              <p>MVP dashboard/app : indicateurs essentiels, lisibilité, décisions.</p>
+            </div>
+          </div>
+          <div class="card step">
+            <div class="dot">4</div>
+            <div>
+              <h3>Déployer</h3>
+              <p>Itérations + stabilisation : qualité données, gouvernance, rituels de pilotage.</p>
+            </div>
+          </div>
+          <div class="card step">
+            <div class="dot">5</div>
+            <div>
+              <h3>Transmettre</h3>
+              <p>Formation ciblée + documentation + passage de relais (autonomie).</p>
+            </div>
+          </div>
+
+          <div class="card feature">
+            <h3>Ce que tu obtiens</h3>
+            <p>Des livrables concrets, un pilotage simple, et des équipes capables de continuer.</p>
+            <div class="heroCtas">
+              <a class="btn" href="#/contact">Demander un échange</a>
+              <a class="btn secondary" href="#/cas">Voir des cas</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="note">
+            Astuce : une mission démarre souvent par un MVP (2–4 semaines) pour éviter les “projets interminables”.
+            Ensuite, on itère sur ce qui crée le plus de valeur.
+          </div>
         </div>
       </div>
-    </div>
+    </section>
+  </section>
+
+  <!-- PAGE: CAS -->
+  <section id="page-cas" class="page">
+    <section class="section">
+      <div class="container">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+          <div>
+            <h2>Cas d’usage</h2>
+            <p>Exemples typiques (adaptables à ta réalité et tes outils).</p>
+          </div>
+          <a class="pill" href="#/contact">→ Demander un échange</a>
+        </div>
+
+        <div class="grid3">
+          <div class="card feature">
+            <h3>Pilotage production</h3>
+            <p>TRS/OEE, rebuts, cadence, retards, performance par ligne/atelier, rituels quotidiens.</p>
+          </div>
+          <div class="card feature">
+            <h3>Qualité & non-conformités</h3>
+            <p>Suivi NC, causes, actions, délais, récurrences. App de saisie terrain + dashboard.</p>
+          </div>
+          <div class="card feature">
+            <h3>Suivi projets / industrialisation</h3>
+            <p>Avancement, jalons, risques, coûts, charge, arbitrages. Tableaux de bord “décision”.</p>
+          </div>
+
+          <div class="card feature">
+            <h3>Supply / stock</h3>
+            <p>Niveaux stock, ruptures, couverture, fournisseurs critiques, alertes simples.</p>
+          </div>
+          <div class="card feature">
+            <h3>Finance & marge</h3>
+            <p>Analyse coûts, écarts, marges par produit/famille, consolidation mensuelle fiable.</p>
+          </div>
+          <div class="card feature">
+            <h3>Gestion actions</h3>
+            <p>Backlog d’amélioration : qui fait quoi, quand, pourquoi. Visibilité et relances.</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="card feature">
+            <h3>Tu veux un exemple sur TON contexte ?</h3>
+            <p>En 30 minutes, on identifie 1–2 cas à fort ROI et on esquisse un MVP.</p>
+            <a class="btn" href="#/contact">Demander un échange</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- PAGE: CONTACT -->
+  <section id="page-contact" class="page">
+    <section class="section">
+      <div class="container">
+        <h2>Contact</h2>
+        <p>Décris ton besoin, je reviens vers toi rapidement.</p>
+
+        <div class="grid2">
+          <div class="card form">
+            <form id="contactForm" action="https://formspree.io/f/xaqnaoae" method="POST">
+              <!-- honeypot anti-spam -->
+              <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+              <div class="field">
+                <label for="name">Nom</label>
+                <input id="name" name="name" type="text" placeholder="Ton nom" required />
+              </div>
+
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="ton@email.com" required />
+              </div>
+
+              <div class="field">
+                <label for="subject">Objet</label>
+                <select id="subject" name="subject" required>
+                  <option value="" disabled selected>Choisir…</option>
+                  <option>Diagnostic & cadrage</option>
+                  <option>Dashboard Power BI</option>
+                  <option>App / automatisation (Power Apps)</option>
+                  <option>Formation / autonomie</option>
+                  <option>Autre</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="company">Entreprise (optionnel)</label>
+                <input id="company" name="company" type="text" placeholder="PME / secteur" />
+              </div>
+
+              <div class="field">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Contexte, objectif, délais, contraintes…" required></textarea>
+              </div>
+
+              <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+                <button id="sendBtn" class="btn" type="submit">Envoyer</button>
+                <a class="btn secondary" href="mailto:contact@digind.fr?subject=Demande%20de%20contact%20DIGIND">Envoyer par email</a>
+                <span class="small" id="formHint">Réponse sous 24–48h.</span>
+              </div>
+
+              <p class="small" style="margin-top:10px;">
+                En envoyant ce message, vous acceptez d’être recontacté. Aucune donnée n’est revendue.
+              </p>
+
+              <div id="formStatus" class="note" style="display:none; margin-top:12px;"></div>
+            </form>
+          </div>
+
+          <div class="card feature">
+            <h3>Ce que j’ai besoin de savoir</h3>
+            <p>Pour répondre utilement :</p>
+            <ul class="small" style="margin:0; padding-left:18px; color:var(--muted)">
+              <li>Ton activité / atelier / service concerné</li>
+              <li>Le problème principal (visibilité, délais, qualité, pilotage…)</li>
+              <li>Les outils actuels (Excel, ERP, etc.)</li>
+              <li>Le délai souhaité</li>
+            </ul>
+
+            <div class="note" style="margin-top:14px;">
+              Astuce : le formulaire envoie un email sans serveur (Formspree). Tu peux aussi utiliser le bouton email.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </section>
 </main>
 
@@ -122,25 +687,178 @@
   <div class="container">
     <div class="footerGrid">
       <div>
-        <img src="assets/digind-logo.svg" alt="DIGIND" style="height:44px" />
-        <p class="small">Conseil en performance opérationnelle & digitalisation pour PME industrielles.</p>
-        <p class="small">© <span id="y"></span> DIGIND</p>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 64 64" aria-hidden="true">
+            <rect x="6" y="6" width="52" height="52" rx="14" fill="#0F2A3D"/>
+            <path d="M20 44V22h4v18h20v4H20z" fill="#E5E7EB"/>
+            <circle cx="44" cy="22" r="6" fill="#F97316"/>
+          </svg>
+          <div>
+            <div style="font-weight:900;">DIGIND</div>
+            <div class="small">Conseil en performance opérationnelle & digitalisation pour PME industrielles.</div>
+          </div>
+        </div>
+
+        <p class="small" style="margin-top:10px;">© <span id="y"></span> DIGIND — Structurer • Mesurer • Décider</p>
       </div>
+
       <div>
         <div class="small" style="font-weight:800; color:var(--ink);">Navigation</div>
         <hr class="sep"/>
         <div style="display:flex; gap:12px; flex-wrap:wrap">
-          <a href="offre.html">Offre</a>
-          <a href="methode.html">Méthode</a>
-          <a href="cas.html">Cas d’usage</a>
-          <a href="contact.html">Contact</a>
+          <a href="#/offre">Offre</a>
+          <a href="#/methode">Méthode</a>
+          <a href="#/cas">Cas d’usage</a>
+          <a href="#/contact">Contact</a>
         </div>
       </div>
     </div>
   </div>
 </footer>
 
-<script src="assets/script.js"></script>
-<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+<script>
+(() => {
+  // --- Mobile menu ---
+  const btn = document.querySelector('.menuBtn');
+  const links = document.querySelector('.navlinks');
+  if (btn && links) btn.addEventListener('click', () => links.classList.toggle('show'));
+
+  // --- Favicon inline (data URI) ---
+  (function injectFavicon(){
+    const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect x="6" y="6" width="52" height="52" rx="14" fill="#0F2A3D"/>
+  <path d="M20 44V22h4v18h20v4H20z" fill="#E5E7EB"/>
+  <circle cx="44" cy="22" r="6" fill="#F97316"/>
+</svg>`.trim();
+    const href = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    const link = document.createElement('link');
+    link.rel = 'icon';
+    link.type = 'image/svg+xml';
+    link.href = href;
+    document.head.appendChild(link);
+  })();
+
+  // --- Routes ---
+  const routes = {
+    "#/":        { id:"page-home",    title:"DIGIND — Structurer. Mesurer. Décider.", desc:"DIGIND accompagne les PME industrielles dans la structuration des processus et le pilotage de la performance via des outils digitaux simples (Power BI / Power Apps)." },
+    "#/offre":   { id:"page-offre",   title:"DIGIND — Offre",        desc:"Offres DIGIND : diagnostic & cadrage, pilotage Power BI, automatisation Power Apps, formation et autonomie." },
+    "#/methode": { id:"page-methode", title:"DIGIND — Méthode",      desc:"Méthode DIGIND : comprendre, structurer, mesurer, déployer, transmettre." },
+    "#/cas":     { id:"page-cas",     title:"DIGIND — Cas d’usage",  desc:"Exemples de cas d’usage : pilotage production, qualité, supply, finance, suivi actions." },
+    "#/contact": { id:"page-contact", title:"DIGIND — Contact",      desc:"Contacter DIGIND : formulaire + email." }
+  };
+
+  const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+  const setMeta = (title, desc) => {
+    document.title = title;
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute('content', desc);
+  };
+
+  const setActiveNav = (hash) => {
+    document.querySelectorAll('.navlinks a[data-route]').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('data-route') === hash);
+    });
+  };
+
+  const markRevealables = (root) => {
+    root.querySelectorAll('.card, .pill, h2, h1, .badge, .lead, .accentLine')
+      .forEach(el => el.classList.add('reveal'));
+  };
+
+  // --- Scroll reveal observer ---
+  let observer = null;
+  const setupRevealObserver = () => {
+    if (prefersReduced) return;
+    if (observer) observer.disconnect();
+    observer = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          observer.unobserve(e.target);
+        }
+      }
+    }, { threshold: 0.12, rootMargin: "0px 0px -10% 0px" });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  };
+
+  const showPage = (hash) => {
+    const key = routes[hash] ? hash : "#/";
+    const r = routes[key];
+
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active','in'));
+
+    const page = document.getElementById(r.id);
+    if (!page) return;
+
+    page.classList.add('active');
+    markRevealables(page);
+    setupRevealObserver();
+    requestAnimationFrame(() => page.classList.add('in'));
+
+    setActiveNav(key);
+    setMeta(r.title, r.desc);
+
+    if (links) links.classList.remove('show');
+
+    if (!prefersReduced) window.scrollTo({ top: 0, behavior: "smooth" });
+    else window.scrollTo(0, 0);
+  };
+
+  window.addEventListener('hashchange', () => showPage(location.hash || "#/"));
+
+  if (!location.hash) location.hash = "#/";
+  showPage(location.hash);
+
+  const y = document.getElementById('y');
+  if (y) y.textContent = new Date().getFullYear();
+
+  // --- Contact: submit without leaving the page (Formspree) ---
+  const form = document.getElementById('contactForm');
+  if (form) {
+    const status = document.getElementById('formStatus');
+    const btnSend = document.getElementById('sendBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (status) { status.style.display = "none"; status.textContent = ""; }
+      const oldText = btnSend?.textContent || "Envoyer";
+      if (btnSend) { btnSend.disabled = true; btnSend.textContent = "Envoi…"; }
+
+      try {
+        const data = new FormData(form);
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: data,
+          headers: { "Accept": "application/json" }
+        });
+
+        if (res.ok) {
+          if (status) {
+            status.style.display = "block";
+            status.textContent = "✅ Message envoyé. Je reviens vers vous rapidement.";
+          }
+          form.reset();
+        } else {
+          if (status) {
+            status.style.display = "block";
+            status.textContent = "❌ Oups, l’envoi a échoué. Essayez l’email ou réessayez plus tard.";
+          }
+        }
+      } catch {
+        if (status) {
+          status.style.display = "block";
+          status.textContent = "❌ Impossible d’envoyer (connexion ?). Utilisez le bouton email.";
+        }
+      } finally {
+        if (btnSend) { btnSend.disabled = false; btnSend.textContent = oldText; }
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
