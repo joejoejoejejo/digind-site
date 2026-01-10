@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DIGIND — Contact</title>
+  <meta name="description" content="Contacter DIGIND : formulaire + email." />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+
+    <!-- LOGO -->
+<div class="logo">
+  <span class="logo-mark"></span>
+  <div class="logo-text">
+    <span class="logo-title">DIGIND</span>
+    <span class="logo-tagline">Structurer • Mesurer • Décider</span>
+  </div>
+</div>
+
+
+    <!-- NAVIGATION CENTRÉE -->
+    <nav class="nav">
+      <a href="index.html">Accueil</a>
+      <a href="offre.html" class="active">Offre</a>
+      <a href="methode.html">Méthode</a>
+      <a href="cas.html">Cas d’usage</a>
+    </nav>
+
+    <!-- CONTACT -->
+    <a href="contact.html" class="btn contact-btn">Contact</a>
+
+  </div>
+</header>
+
+
+<main>
+  <section class="hero" style="padding:54px 0 28px;">
+    <div class="container">
+      <div class="eyebrow"><span class="eyebrowDot"></span>CONTACT</div>
+      <div style="color:var(--darkMuted); margin-top:10px; max-width:900px;">
+        Décris ton besoin, je reviens vers toi rapidement.
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid2">
+        <div class="card form">
+          <div class="softGlow" aria-hidden="true"></div>
+
+          <!-- Remplace /yourid par ton ID Formspree -->
+          <form action="https://formspree.io/f/yourid" method="POST">
+            <div class="field">
+              <label for="name">Nom</label>
+              <input id="name" name="name" type="text" placeholder="Ton nom" required />
+            </div>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="ton@email.com" required />
+            </div>
+
+            <div class="field">
+              <label for="company">Entreprise (optionnel)</label>
+              <input id="company" name="company" type="text" placeholder="PME / secteur" />
+            </div>
+
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Contexte, objectif, délais, contraintes…" required></textarea>
+            </div>
+
+            <button class="btn" type="submit">Envoyer</button>
+            <a class="btn secondary" style="margin-left:8px" href="mailto:contact@digind.fr?subject=Demande%20de%20contact%20DIGIND">Envoyer par email</a>
+
+            <p class="small" style="margin-top:10px;">
+              Remplace <b>contact@digind.fr</b> par ton email réel si besoin, et l’URL Formspree par ton ID.
+            </p>
+          </form>
+        </div>
+
+        <div class="card feature">
+          <div class="softGlow" aria-hidden="true"></div>
+          <h3>Pour répondre utilement</h3>
+          <p>Quelques infos suffisent :</p>
+          <ul class="small" style="margin:0; padding-left:18px; color:var(--muted)">
+            <li>Activité / atelier / service concerné</li>
+            <li>Problème principal (visibilité, délais, qualité, pilotage…)</li>
+            <li>Outils actuels (Excel, ERP, etc.)</li>
+            <li>Délai souhaité</li>
+          </ul>
+
+          <div class="note" style="margin-top:14px;">
+            Pour que le formulaire envoie vraiment un email : crée un formulaire sur Formspree et remplace
+            <b>https://formspree.io/f/yourid</b>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p class="small">© <span id="y"></span> DIGIND — Structurer • Mesurer • Décider</p>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>

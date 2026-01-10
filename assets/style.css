@@ -1,0 +1,407 @@
+/* ===============================
+   VARIABLES
+================================ */
+:root{
+  --ink:#0f2a3d;
+  --muted:#5b6b76;
+  --accent:#f4c430;
+  --bg:#f4f5f6;
+  --card:#ffffff;
+}
+
+/* ===============================
+   RESET
+================================ */
+*{ box-sizing:border-box; }
+
+html, body{
+  margin:0;
+  padding:0;
+  overflow-x:hidden;
+}
+
+body{
+  font-family: Inter, system-ui, sans-serif;
+  color:var(--ink);
+  background: url("bg-industrial.png") center / cover no-repeat fixed;
+}
+
+/* Overlay global pour lisibilité */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(7,22,34,.35),
+      rgba(7,22,34,.15),
+      rgba(255,255,255,.75)
+    );
+  pointer-events:none;
+}
+
+/* ===============================
+   LAYOUT
+================================ */
+.container{
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 20px;
+}
+
+/* ===============================
+   HEADER
+================================ */
+.site-header{
+  position:sticky;
+  top:0;
+  background:rgba(10,25,35,.72);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.12);
+  z-index:100;
+}
+
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:64px;
+  gap:24px;
+}
+
+/* ===== LOGO DIGIND ===== */
+.logo{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  color:#fff;
+  white-space:nowrap;
+}
+
+.logo-mark{
+  width:18px;
+  height:18px;
+  border-radius:6px;
+  background:var(--accent);
+  box-shadow:0 0 0 6px rgba(244,196,48,.25);
+  margin-top:4px; /* aligne visuellement avec le texte */
+}
+
+.logo-text{
+  display:flex;
+  flex-direction:column;
+  line-height:1.1;
+}
+
+.logo-title{
+  font-weight:900;
+  letter-spacing:1px;
+  font-size:18px;
+}
+
+.logo-tagline{
+  font-size:12px;
+  font-weight:500;
+  color:rgba(255,255,255,.85);
+  margin-top:4px;
+}
+
+
+.nav{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:36px;
+}
+
+.nav a{
+  color:rgba(255,255,255,.85);
+  font-weight:600;
+  text-decoration:none;
+  padding-bottom:6px;
+  white-space:nowrap;
+}
+
+.nav a:hover,
+.nav a.active{
+  color:#fff;
+  border-bottom:2px solid var(--accent);
+}
+
+.contact-btn{
+  white-space:nowrap;
+}
+
+/* ===============================
+   BUTTONS
+================================ */
+.btn{
+  background:var(--accent);
+  color:#000;
+  padding:10px 16px;
+  border-radius:10px;
+  font-weight:700;
+  text-decoration:none;
+  display:inline-block;
+}
+
+.btn.secondary{
+  background:#fff;
+  border:1px solid #ddd;
+  color:#000;
+}
+
+/* ===============================
+   HERO
+================================ */
+.hero{
+  padding:80px 0 40px;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.3fr .7fr;
+  gap:24px;
+}
+
+/* ===============================
+   CARDS
+================================ */
+.card{
+  background:var(--card);
+  border-radius:18px;
+  padding:28px;
+  box-shadow:0 20px 50px rgba(0,0,0,.15);
+}
+
+.hero-main h1{
+  font-size:44px;
+  line-height:1.05;
+  margin:0 0 12px 0;
+}
+
+.hero-main p{
+  color:var(--muted);
+  max-width:520px;
+  margin:0;
+}
+
+.badge{
+  display:inline-block;
+  background:#eef1f3;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:13px;
+  margin-bottom:12px;
+}
+
+.actions{
+  margin-top:20px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.hero-side h3{
+  margin:0 0 12px 0;
+}
+
+.hero-side ul{
+  padding-left:18px;
+  margin:0;
+}
+
+.hero-side li{
+  margin-bottom:14px;
+  color:var(--muted);
+}
+
+/* ===============================
+   VALEUR (3 cartes)
+================================ */
+.value-grid{
+  margin-top:40px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+/* cartes valeur : icône flottante en haut à droite */
+.card.value{
+  position:relative;
+  overflow:visible;
+  padding:28px;
+  padding-right:110px; /* réserve pour l'icône */
+  padding-top:22px;
+}
+
+.card.value h3{
+  margin:0 0 12px 0;
+}
+
+.card.value p{
+  margin:0;
+  color:var(--ink);
+}
+
+/* badge icône flottant */
+.value-icon-float{
+  position:absolute;
+  top:-26px;    /* débordement */
+  right:22px;
+  width:92px;
+  height:92px;
+  border-radius:18px;
+  background:#f4f6f8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 12px 26px rgba(0,0,0,0.12);
+}
+
+.value-icon-float img{
+  width:62px;
+  height:62px;
+  object-fit:contain;
+  display:block;
+}
+
+/* ===============================
+   SECTIONS (Audience / CTA)
+================================ */
+.section{
+  margin-top:32px;
+}
+
+.section .card{
+  padding:32px;
+}
+
+.audience ul{
+  margin-top:12px;
+  padding-left:18px;
+}
+
+.audience .note{
+  margin-top:14px;
+  font-weight:500;
+  color:var(--ink);
+}
+
+.cta{
+  margin-bottom:40px;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 900px){
+  .hero-grid{
+    grid-template-columns:1fr;
+  }
+  .value-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* Mobile : pleine largeur, header 2 lignes, menu scroll */
+@media (max-width: 768px){
+
+  .container{
+    max-width:100%;
+    width:100%;
+    padding-left:16px;
+    padding-right:16px;
+  }
+
+  /* Header sur 2 lignes */
+  .header-inner{
+    height:auto;
+    padding:10px 0;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+
+  .logo{
+    flex:1 1 auto;
+    min-width:140px;
+    order:1;
+  }
+
+  .contact-btn{
+    order:2;
+    margin-left:auto;
+    padding:10px 14px; /* plus compact */
+    border-radius:14px;
+  }
+
+  .nav{
+    order:3;
+    flex:0 0 100%;
+    width:100%;
+    justify-content:center;
+    gap:18px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    padding:6px 0 2px;
+  }
+
+  .nav a{
+    flex:0 0 auto;
+  }
+
+  .nav::-webkit-scrollbar{
+    height:0px;
+  }
+
+  /* cartes valeur compactes */
+  .card.value{
+    padding:22px;
+    padding-right:86px;
+  }
+
+  .value-icon-float{
+    width:64px;
+    height:64px;
+    right:16px;
+    top:-18px;
+    border-radius:16px;
+  }
+
+  .value-icon-float img{
+    width:42px;
+    height:42px;
+  }
+}
+
+/* Très petit mobile */
+@media (max-width: 420px){
+
+  .card{
+    padding:22px;
+  }
+
+  .hero-main h1{
+    font-size:38px;
+  }
+
+  .card.value{
+    padding:18px;
+    padding-right:76px;
+  }
+
+  .value-icon-float{
+    width:56px;
+    height:56px;
+    right:14px;
+    top:-14px;
+    border-radius:14px;
+  }
+
+  .value-icon-float img{
+    width:36px;
+    height:36px;
+  }
+}

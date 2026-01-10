@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="90" viewBox="0 0 420 90" role="img" aria-label="DIGIND">
+  <defs>
+    <style>
+      .word{font:700 44px/1.1 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; letter-spacing:1px}
+      .sub{font:600 14px/1.1 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; letter-spacing:.6px}
+    </style>
+  </defs>
+
+  <!-- Symbol: axis + dot (pilotage / point de décision) -->
+  <g transform="translate(14,16)">
+    <rect x="0" y="0" width="58" height="58" rx="14" fill="#0F2A3D"/>
+    <path d="M16 38V20h4v18h18v4H16z" fill="#E5E7EB" opacity=".95"/>
+    <circle cx="40" cy="20" r="5.5" fill="#F97316"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="90" y="50" class="word" fill="#0F2A3D">DIGIND</text>
+
+  <!-- Baseline -->
+  <text x="90" y="74" class="sub" fill="#0F2A3D" opacity=".78">STRUCTURER • MESURER • DÉCIDER</text>
+
+  <!-- Accent bar -->
+  <rect x="90" y="56" width="120" height="4" rx="2" fill="#F97316"/>
+</svg>
